@@ -35,6 +35,9 @@ public class Gomoku {
         for (int i = 0; i < 9; i++) {
             if (goban.get(position) != null && goban.get(position).equals(color)) {
                 count++;
+                if (count == 5) {
+                	break;
+                }
             } else {
                 count = 0;
             }
@@ -49,6 +52,9 @@ public class Gomoku {
         for (int i = 0; i < 9; i++) {
             if (goban.get(position) != null && goban.get(position).equals(color)) {
                 count++;
+                if (count == 5) {
+                	break;
+                }
             } else {
                 count = 0;
             }
@@ -63,6 +69,9 @@ public class Gomoku {
         for (int i = 0; i < 9; i++) {
             if (goban.get(position) != null && goban.get(position).equals(color)) {
                 count++;
+                if (count == 5) {
+                	break;
+                }
             } else {
                 count = 0;
             }
