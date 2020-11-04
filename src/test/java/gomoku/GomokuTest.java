@@ -38,6 +38,13 @@ class GomokuTest {
     @Test
     void horizontalTest() {
         Gomoku gomoku = new Gomoku();
-        gomoku.addWhite(1, 1);
+        assertFalse(gomoku.addWhite(-2, 1));
+        assertFalse(gomoku.addBlack(-2, 0));
+        assertFalse(gomoku.addWhite(-1, 1));
+        assertFalse(gomoku.addBlack(-1, 0));
+        assertFalse(gomoku.addWhite(0, 1));
+        assertFalse(gomoku.addBlack(1, 0));
+        assertFalse(gomoku.addWhite(1, 1));
+        assertTrue(gomoku.addBlack(2, 0));
     }
 }
