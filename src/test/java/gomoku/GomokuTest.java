@@ -65,7 +65,7 @@ class GomokuTest {
     void diagonalLeftBottomRightTopTest() {
         Gomoku gomoku = new Gomoku();
         assertFalse(gomoku.addWhite(-2, 5));
-        assertFalse(gomoku.addBlack(-2, 2));
+        assertFalse(gomoku.addBlack(-2, -2));
         assertFalse(gomoku.addWhite(-1, 5));
         assertFalse(gomoku.addBlack(-1, -1));
         assertFalse(gomoku.addWhite(0, 5));
