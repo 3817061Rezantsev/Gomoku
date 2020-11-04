@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>gomoku</groupId>
-    <artifactId>JavaLab1</artifactId>
+    <artifactId>Gomoku</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>JavaLab1</name>
+    <name>Gomoku</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

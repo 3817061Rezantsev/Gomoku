@@ -22,7 +22,7 @@ public class Gomoku {
 
     protected boolean move(int x, int y, Boolean color) {
         Position position = new Position(x, y);
-        if (colorToMove == color) {
+        if (colorToMove == color && goban.get(position) == null) {
             goban.put(position, color);
             colorToMove = !colorToMove;
         }
@@ -33,7 +33,7 @@ public class Gomoku {
         Position position = new Position(p.getX() - 4, p.getY());
         int count = 0;
         for (int i = 0; i < 9; i++) {
-            if (goban.get(position).equals(color)) {
+            if (goban.get(position) != null && goban.get(position).equals(color)) {
                 count++;
             } else {
                 count = 0;
@@ -47,7 +47,7 @@ public class Gomoku {
         Position position = new Position(p.getX(), p.getY() - 4);
         int count = 0;
         for (int i = 0; i < 9; i++) {
-            if (goban.get(position).equals(color)) {
+            if (goban.get(position) != null && goban.get(position).equals(color)) {
                 count++;
             } else {
                 count = 0;
@@ -61,7 +61,7 @@ public class Gomoku {
         Position position = new Position(p.getX() - 4, p.getY() - 4);
         int count = 0;
         for (int i = 0; i < 9; i++) {
-            if (goban.get(position).equals(color)) {
+            if (goban.get(position) != null && goban.get(position).equals(color)) {
                 count++;
             } else {
                 count = 0;
