@@ -20,7 +20,7 @@ public class Gomoku {
         return move(x, y, false);
     }
 
-    protected boolean move(int x, int y, Boolean color) {
+    protected boolean move(int x, int y, boolean color) {
         Position position = new Position(x, y);
         if (colorToMove == color && goban.get(position) == null) {
             goban.put(position, color);
@@ -29,7 +29,7 @@ public class Gomoku {
         return isWinner(position, color);
     }
 
-    protected boolean horizontal(Position p, Boolean color) {
+    protected boolean horizontal(Position p, boolean color) {
         Position position = new Position(p.getX() - 4, p.getY());
         int count = 0;
         for (int i = 0; i < 9; i++) {
@@ -46,7 +46,7 @@ public class Gomoku {
         return count >= 5;
     }
 
-    protected boolean vertical(Position p, Boolean color) {
+    protected boolean vertical(Position p, boolean color) {
         Position position = new Position(p.getX(), p.getY() - 4);
         int count = 0;
         for (int i = 0; i < 9; i++) {
@@ -63,7 +63,7 @@ public class Gomoku {
         return count >= 5;
     }
 
-    protected boolean diagonal(Position p, Boolean color) {
+    protected boolean diagonal(Position p, boolean color) {
         Position position = new Position(p.getX() - 4, p.getY() - 4);
         int count = 0;
         for (int i = 0; i < 9; i++) {
@@ -81,7 +81,7 @@ public class Gomoku {
         return count >= 5;
     }
 
-    protected boolean isWinner(Position p, Boolean color) {
+    protected boolean isWinner(Position p, boolean color) {
         return diagonal(p, color) || horizontal(p, color) || vertical(p, color);
     }
 

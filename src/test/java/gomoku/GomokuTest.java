@@ -47,4 +47,30 @@ class GomokuTest {
         assertFalse(gomoku.addWhite(1, 1));
         assertTrue(gomoku.addBlack(2, 0));
     }
+    
+    @Test
+    void diagonalLeftTopRightBottomTest() {
+        Gomoku gomoku = new Gomoku();
+        assertFalse(gomoku.addWhite(-2, 5));
+        assertFalse(gomoku.addBlack(-2, 2));
+        assertFalse(gomoku.addWhite(-1, 5));
+        assertFalse(gomoku.addBlack(-1, 1));
+        assertFalse(gomoku.addWhite(0, 5));
+        assertFalse(gomoku.addBlack(1, -1));
+        assertFalse(gomoku.addWhite(1, 5));
+        assertTrue(gomoku.addBlack(2, -2));
+    }
+    
+    @Test
+    void diagonalLeftBottomRightTopTest() {
+        Gomoku gomoku = new Gomoku();
+        assertFalse(gomoku.addWhite(-2, 5));
+        assertFalse(gomoku.addBlack(-2, 2));
+        assertFalse(gomoku.addWhite(-1, 5));
+        assertFalse(gomoku.addBlack(-1, -1));
+        assertFalse(gomoku.addWhite(0, 5));
+        assertFalse(gomoku.addBlack(1, 1));
+        assertFalse(gomoku.addWhite(1, 5));
+        assertTrue(gomoku.addBlack(2, 2));
+    }
 }
