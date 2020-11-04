@@ -13,11 +13,8 @@ public class Gomoku {
 		addBlack(0, 0);
 	}
 
-	public int getNumOfPieces() {
-		return numOfPieces;
-	}
-
-	public void setNumOfPieces(int numOfPieces) {
+	public Gomoku(int numOfPieces) {
+		this();
 		this.numOfPieces = numOfPieces;
 	}
 
