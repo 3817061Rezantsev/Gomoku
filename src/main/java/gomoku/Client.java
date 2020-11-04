@@ -13,7 +13,7 @@ public class Client {
 		String host = (args.length < 1) ? null : args[0];
 		try {
 			Registry registry = LocateRegistry.getRegistry(host);
-			Hello stub = (Hello) registry.lookup("Hello");
+			Game stub = (Game) registry.lookup("Hello");
 			System.out.println(stub);
 
 			String response = stub.sayHello();
