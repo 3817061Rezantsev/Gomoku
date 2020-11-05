@@ -1,4 +1,4 @@
-package gomoku;
+package gomoku.server;
 
 public class Position {
 

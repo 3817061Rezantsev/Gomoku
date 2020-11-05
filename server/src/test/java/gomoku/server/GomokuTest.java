@@ -1,4 +1,4 @@
-package gomoku;
+package gomoku.server;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,7 +47,7 @@ class GomokuTest {
         assertFalse(gomoku.addWhite(1, 1));
         assertTrue(gomoku.addBlack(2, 0));
     }
-    
+
     @Test
     void diagonalLeftTopRightBottomTest() {
         Gomoku gomoku = new Gomoku();
@@ -60,7 +60,7 @@ class GomokuTest {
         assertFalse(gomoku.addWhite(1, 5));
         assertTrue(gomoku.addBlack(2, -2));
     }
-    
+
     @Test
     void diagonalLeftBottomRightTopTest() {
         Gomoku gomoku = new Gomoku();
@@ -73,7 +73,7 @@ class GomokuTest {
         assertFalse(gomoku.addWhite(1, 5));
         assertTrue(gomoku.addBlack(2, 2));
     }
-    
+
     @Test
     void verticalTest() {
         Gomoku gomoku = new Gomoku();

@@ -1,4 +1,4 @@
-package gomoku;
+package gomoku.server;
 
 import java.util.HashMap;
 import java.util.Map;
