@@ -1,9 +1,7 @@
 package gomoku.server;
 
 import java.rmi.server.UnicastRemoteObject;
-
 import java.rmi.RemoteException;
-
 import java.util.ArrayList;
 
 import gomoku.common.ClientIF;
