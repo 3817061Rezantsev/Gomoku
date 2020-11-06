@@ -1,28 +1,65 @@
 package gomoku.client;
 
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.Scanner;
 
-import gomoku.common.Game;
+import gomoku.common.ClientIF;
+import gomoku.common.ServerIF;
 
-public class Client {
+public class Client extends UnicastRemoteObject implements ClientIF, Runnable {
 
-    private Client() {
-    }
+	private static final long serialVersionUID = 1L;
+	private ServerIF server;
+	private String name = null;
+	private boolean myTurn = false;
 
-    public static void main(String[] args) {
+	protected Client(String name, ServerIF server) throws RemoteException {
+		this.server = server;
+		this.name = name;
+		server.registerClient(this);
+		if (name.equals("White")) {
+			myTurn = true;
+		}
+	}
 
-        String host = (args.length < 1) ? null : args[0];
-        try {
-            Registry registry = LocateRegistry.getRegistry(host);
-            Game stub = (Game) registry.lookup("Hello");
-            System.out.println(stub);
+	@Override
+	public void retrieveMessage(String message) throws RemoteException {
+		System.out.println(message);
+	}
 
-            String response = stub.sayHello();
-            System.out.println("response: " + response);
-        } catch (Exception e) {
-            System.err.println("Client exception: " + e.toString());
-            e.printStackTrace();
-        }
-    }
+	@Override
+	public void run() {
+		Scanner scanner = new Scanner(System.in);
+		String message;
+		while (true) {
+			if (myTurn) {
+				System.out.println("turn of" + name);
+				message = scanner.nextLine();
+				try {
+					server.broadcastMessage(name + ":" + message);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				myTurn = false;
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public void setTurn(boolean turn) throws RemoteException {
+		myTurn = turn;
+	}
+
+	@Override
+	public boolean isMyTurn() throws RemoteException {
+		return myTurn;
+	}
 }
