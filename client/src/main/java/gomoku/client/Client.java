@@ -1,65 +1,70 @@
 package gomoku.client;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
-import gomoku.common.ClientIF;
-import gomoku.common.ServerIF;
+import gomoku.common.Game;
+import gomoku.common.Move;
+import gomoku.common.Position;
 
-public class Client extends UnicastRemoteObject implements ClientIF, Runnable {
+public class Client implements Runnable {
 
-	private static final long serialVersionUID = 1L;
-	private ServerIF server;
-	private String name = null;
-	private boolean myTurn = false;
+    private Game server;
+    private boolean myColor;
 
-	protected Client(String name, ServerIF server) throws RemoteException {
-		this.server = server;
-		this.name = name;
-		server.registerClient(this);
-		if (name.equals("White")) {
-			myTurn = true;
-		}
-	}
+    protected Client(String name, Game server) throws RemoteException {
+        this.server = server;
+        this.myColor = name.equalsIgnoreCase("white");
 
-	@Override
-	public void retrieveMessage(String message) throws RemoteException {
-		System.out.println(message);
-	}
+    }
 
-	@Override
-	public void run() {
-		Scanner scanner = new Scanner(System.in);
-		String message;
-		while (true) {
-			if (myTurn) {
-				System.out.println("turn of" + name);
-				message = scanner.nextLine();
-				try {
-					server.broadcastMessage(name + ":" + message);
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				myTurn = false;
-			}
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
+    private Move getMove(Scanner scanner) {
+        System.out.print("Your Move: ");
+        String input = scanner.nextLine();
+        String[] coords = input.split(",");
+        Position position = new Position();
+        position.setX(Integer.valueOf(coords[0]));
+        position.setY(Integer.valueOf(coords[1]));
+        Move move = new Move();
+        move.setColor(myColor);
+        move.setPosition(position);
+        return move;
+    }
 
-	@Override
-	public void setTurn(boolean turn) throws RemoteException {
-		myTurn = turn;
-	}
+    @Override
+    public void run() {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            while (true) {
+                Move lastMove = server.getLastMove();
+                if (lastMove.isColor() != myColor) {
+                    System.out.println("Last Move: [" + lastMove.getPosition().getX() + ", " + lastMove.getPosition().getY() + "]");
+                    if (lastMove.isGameOver()) {
+                        System.out.print("Your are looser!!!");
+                        break;
+                    }
+                    boolean isWin = server.move(getMove(scanner));
+                    if (isWin) {
+                        System.out.print("Your are the winner!!!");
+                        break;
+                    }
+                }
+                Thread.sleep(1000);
 
-	@Override
-	public boolean isMyTurn() throws RemoteException {
-		return myTurn;
-	}
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            scanner.close();
+        }
+    }
+
+    public static void main(String args[]) throws MalformedURLException, RemoteException, NotBoundException {
+        String serverURL = "rmi://localhost/RMIServer";
+        Game server = (Game) Naming.lookup(serverURL);
+        new Thread(new Client(args[0], server)).start();
+    }
 }

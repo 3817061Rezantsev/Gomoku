@@ -1,38 +1,33 @@
 package gomoku.server;
 
 import java.rmi.server.UnicastRemoteObject;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
-import gomoku.common.ClientIF;
-import gomoku.common.ServerIF;
+import gomoku.common.Game;
+import gomoku.common.Move;
+import gomoku.common.Position;
 
-public class Server extends UnicastRemoteObject implements ServerIF {
+public class Server extends UnicastRemoteObject implements Game {
+    private Gomoku gomoku;
 
-	private static final long serialVersionUID = 1L;
-	private ArrayList<ClientIF> clients;
+    protected Server() throws RemoteException {
+        gomoku = new Gomoku();
+    }
 
-	protected Server() throws RemoteException {
-		clients = new ArrayList<>();
-	}
+    public static void main(String args[]) throws RemoteException, MalformedURLException {
+        Naming.rebind("RMIServer", new Server());
+    }
 
-	@Override
-	public synchronized void registerClient(ClientIF client) throws RemoteException {
-		this.clients.add(client);
-	}
+    @Override
+    public Move getLastMove() throws RemoteException {
+        return gomoku.getLastMove();
+    }
 
-	@Override
-	public synchronized void broadcastMessage(String message) throws RemoteException {
-		int i = 0;
-		while (i < clients.size()) {
-			if (clients.get(i).isMyTurn()) {
-				clients.get(i++).retrieveMessage(message);
-			} else {
-				clients.get(i++).setTurn(true);
-			}
-
-		}
-
-	}
-
+    @Override
+    public boolean move(Move move) throws RemoteException {
+        Position p = move.getPosition();
+        return gomoku.move(p.getX(), p.getY(), move.isColor());
+    }
 }
